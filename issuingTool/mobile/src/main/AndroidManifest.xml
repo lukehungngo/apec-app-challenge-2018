@@ -25,8 +25,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".PendingTxActivity">
-        </activity>
+        <activity android:name=".PendingTxActivity"></activity>
+        <activity android:name=".CertificateActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package unicraft.unicraftcertificate;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,11 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class PendingTxActivity extends AppCompatActivity {
 
+    String blockchainData;
+    String name;
+    String nid;
+    String picture;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +27,12 @@ public class PendingTxActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Pending eCertificate");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+        blockchainData = (String) getIntent().getExtras().getString("BlockchainData");
+        name = (String) getIntent().getExtras().getString("Name");
+        nid = (String) getIntent().getExtras().getString("NID");
+        picture = (String) getIntent().getExtras().getString("Picture");
 
         final Handler handler = new Handler();
         Runnable runnable = new Runnable() {
@@ -48,6 +60,12 @@ public class PendingTxActivity extends AppCompatActivity {
         return false;
     }
     public void viewCertificate(View v) {
+        Intent myIntent = new Intent(PendingTxActivity.this, CertificateActivity.class);
+        myIntent.putExtra("BlockchainData", blockchainData);
+        myIntent.putExtra("Name", name);
+        myIntent.putExtra("NID", nid);
+        myIntent.putExtra("Picture", picture);
 
+        PendingTxActivity.this.startActivity(myIntent);
     }
 }

@@ -103,14 +103,14 @@ public class RegistrationActivity extends AppCompatActivity {
         ).get();
 
         Intent myIntent = new Intent(RegistrationActivity.this, PendingTxActivity.class);
-        myIntent.putExtra("BlocckhainData", context);
+        myIntent.putExtra("BlockchainData", context);
         myIntent.putExtra("Name", name);
         myIntent.putExtra("NID", nid);
         myIntent.putExtra("Picture", image);
 
         RegistrationActivity.this.startActivity(myIntent);
 
-//        Log.v("Hiep",context);
+        Log.v("Hiep",context);
     }
 
     private class RegisterCertificate extends AsyncTask<String, Integer, String> {

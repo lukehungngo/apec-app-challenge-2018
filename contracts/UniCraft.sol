@@ -14,7 +14,9 @@ contract UniCraft is Ownable{
     struct Product
     {
         bytes32 artisanId;
-        uint256 listedDate;
+        bytes coopProvince;
+        uint256 dateMade;
+        bytes fiber;
         uint256 soldDate;
         bytes compellingStoryUri;
         bytes userStory;
@@ -23,7 +25,7 @@ contract UniCraft is Ownable{
     mapping (bytes32 => Product) public products;
     
     event IssuerCertificate(bytes32 _id, bytes _name, address _addr, bytes _ssn);
-    event CreateProduct(bytes32 _id, bytes32 _artisanId, uint256 _listedDate, bytes _cStory);
+    event CreateProduct(bytes32 _id, bytes32 _artisanId, uint256 _dateMade, bytes _coopProvince, bytes _fiber, bytes _cStory);
     event BuyProduct(bytes32 _id, address buyer, uint256 _soldDate);
     event UserStoryAdded(bytes UserStory);
     /*
@@ -50,21 +52,23 @@ contract UniCraft is Ownable{
     * @param product Id, artisan Id (the maker of product), compelling story attached to that product
     * @retun true if success in listing product otherwise return false
      */
-    function listProduct(bytes32 _id, bytes32 _artisanId, bytes _cStory)
+    function listProduct(bytes32 _id, bytes32 _artisanId, bytes _coopProvince, bytes _fiber, bytes _cStory)
     public
     onlyOwner
     returns (bool)
     {
         require(artisans[_artisanId].addr != address(0x0));
-        require(products[_id].listedDate == 0);
+        require(products[_id].dateMade == 0);
         Product memory product;
         product.artisanId = _artisanId;
-        product.listedDate = now;
+        product.dateMade = now;
+        product.coopProvince = _coopProvince;
+        product.fiber = _fiber;
         product.compellingStoryUri = _cStory;
         //product.status = 0;
         products[_id] = product;
         artisans[_artisanId].productIds.push(_id);
-        emit CreateProduct(_id, _artisanId, now, _cStory);
+        emit CreateProduct(_id, _artisanId, now, _coopProvince, _fiber, _cStory);
         return true;
     }
     /*

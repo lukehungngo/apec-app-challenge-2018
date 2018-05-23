@@ -111,8 +111,8 @@ module.exports.CreateAndBroadcastSelfTx = function (privateKey, dataRegister, ca
 				console.log(err);
 
 				console.log(res);
-				callback(res)
-				//callback('https://rinkeby.etherscan.io/tx/' + res)
+				//callback(res)
+				callback('https://rinkeby.etherscan.io/tx/' + res)
 				return res;
 			});
 		}

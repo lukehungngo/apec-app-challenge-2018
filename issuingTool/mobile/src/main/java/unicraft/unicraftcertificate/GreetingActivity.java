@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+/**
+ * Created by UnciCraft on 23/05/2018.
+ */
 
 public class GreetingActivity extends AppCompatActivity  implements View.OnClickListener {
 
@@ -13,6 +17,8 @@ public class GreetingActivity extends AppCompatActivity  implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_greeting);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 
         //View objects
         RelativeLayout buttonRegister = (RelativeLayout) findViewById(R.id.btnRegister);

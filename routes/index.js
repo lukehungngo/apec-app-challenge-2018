@@ -18,8 +18,7 @@ router.post('/issueCertificate', function (req, response, next) {
 	console.log(req.body.ssn)
 	let picture = req.body.picture.toString()
 
-	utils.issueCertificate(name,ssn,picture).then(result =>
-	{
+	utils.issueCertificate(name, ssn, picture).then(result => {
 		dataRegister = result.dataRegister
 		ArtisanId = result.ArtisanId
 		utils.CreateAndBroadcastTx(privateKey, dataRegister, (txId) => response.json({
@@ -27,62 +26,74 @@ router.post('/issueCertificate', function (req, response, next) {
 			"ArtisanId": ArtisanId
 		}))
 	})
-	
+
+});
+
+router.post('/listProductAndStory', async function (req, response, next) {
+	let Story = req.body.Story.toString()
+	let storyHex = "0x" + await utils.ascii_to_hexa(Story)
+	let nonce = await web3.eth.getTransactionCount("0x5fdc5fd99b832b78b8583aa1839f72aa6c00d901") + 1
+	utils.CreateAndBroadcastSelfTx(privateKey, storyHex, (txId_1) => {
+		let ArtisanId = req.body.ArtisanId.toString()
+		console.log(req.body.ArtisanId)
+		let CoopProvince = req.body.CoopProvince.toString()
+		console.log(req.body.CoopProvince)
+		let Fiber = req.body.Fiber.toString()
+		console.log(req.body.Fiber)
+		let DateMade = req.body.DateMade.toString()
+		console.log(req.body.DateMade)
+		utils.listProduct(ArtisanId, DateMade, CoopProvince, Fiber, txId_1).then(result => {
+			dataRegister = result.dataRegister
+			ProductId = result.ProductId
+			utils.CreateAndBroadcastTxWithNonce(privateKey, dataRegister, nonce, (txId_2) => response.json({
+				"Link": txId_2,
+				"ProductId": ProductId
+			}))
+		})
+	})
 });
 router.post('/listProduct', function (req, response, next) {
-	let name = req.body.name.toString()
-	console.log(req.body.name)
-	let ssn = req.body.ssn.toString()
-	console.log(req.body.ssn)
-	let picture = req.body.picture.toString()
 
-	utils.issueCertificate(name,ssn,picture).then(result =>
-	{
-		utils.CreateAndBroadcastTx(privateKey, result, (txId) => response.json(txId))
+	let ArtisanId = req.body.ArtisanId.toString()
+	console.log(req.body.ArtisanId)
+	let CoopProvince = req.body.CoopProvince.toString()
+	console.log(req.body.CoopProvince)
+	let Fiber = req.body.Fiber.toString()
+	console.log(req.body.Fiber)
+	let Story = req.body.Story.toString()
+	console.log(req.body.Story)
+	let DateMade = req.body.DateMade.toString()
+	console.log(req.body.DateMade)
+	utils.listProduct(ArtisanId, DateMade, CoopProvince, Fiber, Story).then(result => {
+		dataRegister = result.dataRegister
+		ProductId = result.ProductId
+		utils.CreateAndBroadcastTx(privateKey, dataRegister, (txId) => response.json({
+			"Link": txId,
+			"ProductId": ProductId
+		}))
 	})
-	
+
 });
+router.post('/listProduct', function (req, response, next) {
 
-router.post('/registerUser', function (req, response, next) {
-	let userHash = req.body.userHash.toString()
-	console.log(req.body.userHash)
-	let userName = req.body.userName.toString()
-	console.log(req.body.userName)
+	let ArtisanId = req.body.ArtisanId.toString()
+	console.log(req.body.ArtisanId)
+	let CoopProvince = req.body.CoopProvince.toString()
+	console.log(req.body.CoopProvince)
+	let Fiber = req.body.Fiber.toString()
+	console.log(req.body.Fiber)
+	let Story = req.body.Story.toString()
+	console.log(req.body.Story)
+	let DateMade = req.body.DateMade.toString()
+	console.log(req.body.DateMade)
+	utils.listProduct(ArtisanId, DateMade, CoopProvince, Fiber, Story).then(result => {
+		dataRegister = result.dataRegister
+		ProductId = result.ProductId
+		utils.CreateAndBroadcastTx(privateKey, dataRegister, (txId) => response.json({
+			"Link": txId,
+			"ProductId": ProductId
+		}))
+	})
 
-	userHash = "0x" + utils.ascii_to_hexa(userHash)
-	userName = "0x" + utils.ascii_to_hexa(userName)
-	console.log(userHash + ' ' + typeof (userHash))
-	console.log(userName + ' ' + typeof (userName))
-
-	const dataRegister = utils.cvssledgerContract.methods.registerUser(userHash, userName).encodeABI();
-
-	utils.CreateAndBroadcastTx(privateKey, dataRegister,(txID)=> response.json(txID))
 });
-//function addCertificate(bytes16 userHash, bytes16 issuerPubkey, bytes16 issuerSignature, bytes16 certHash) public onlyOwner {
-router.post('/addCertificate', function (req, response, next) {
-	let userHash = req.body.userHash.toString()
-	console.log(req.body.userHash)
-	let issuerPubkey = req.body.issuerPubkey.toString()
-	console.log(req.body.issuerPubkey)
-	let issuerSignature = req.body.issuerSignature.toString()
-	console.log(req.body.issuerSignature)
-	let certHash = req.body.certHash.toString()
-	console.log(req.body.certHash)
-
-	userHash = "0x" + utils.ascii_to_hexa(userHash)
-	issuerPubkey = "0x" + utils.ascii_to_hexa(issuerPubkey)
-	issuerSignature = "0x" + utils.ascii_to_hexa(issuerSignature)
-	certHash = "0x" + utils.ascii_to_hexa(certHash)
-
-	console.log(userHash + ' ' + typeof (userHash))
-	console.log(issuerPubkey + ' ' + typeof (issuerPubkey))
-	console.log(issuerSignature + ' ' + typeof (issuerSignature))
-	console.log(certHash + ' ' + typeof (certHash))
-
-	const dataRegister = utils.cvssledgerContract.methods.addCertificate(userHash, issuerPubkey, issuerSignature, certHash).encodeABI();
-	utils.CreateAndBroadcastTx(privateKey, dataRegister,(txID)=> response.json(txID))
-	//response.json(utils.CreateAndBroadcastTx(privateKey, dataRegister))
-});
-router.post('/test', function (req, response, next) {
-})
 module.exports = router;

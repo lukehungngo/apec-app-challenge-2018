@@ -1,6 +1,72 @@
 module.exports.uniCraftABI = [{
         "constant": true,
         "inputs": [{
+            "name": "_artisanId",
+            "type": "bytes32"
+        }],
+        "name": "getProductList",
+        "outputs": [{
+            "name": "",
+            "type": "bytes32[]"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [{
+            "name": "_artisanId",
+            "type": "bytes32"
+        }],
+        "name": "getProductCount",
+        "outputs": [{
+            "name": "",
+            "type": "uint256"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [{
+                "name": "_id",
+                "type": "bytes32"
+            },
+            {
+                "name": "_artisanId",
+                "type": "bytes32"
+            },
+            {
+                "name": "_dateMade",
+                "type": "bytes"
+            },
+            {
+                "name": "_coopProvince",
+                "type": "bytes"
+            },
+            {
+                "name": "_fiber",
+                "type": "bytes"
+            },
+            {
+                "name": "_cStory",
+                "type": "bytes"
+            }
+        ],
+        "name": "listProduct",
+        "outputs": [{
+            "name": "",
+            "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [{
             "name": "",
             "type": "bytes32"
         }],
@@ -39,15 +105,11 @@ module.exports.uniCraftABI = [{
             },
             {
                 "name": "dateMade",
-                "type": "uint256"
+                "type": "bytes"
             },
             {
                 "name": "fiber",
                 "type": "bytes"
-            },
-            {
-                "name": "soldDate",
-                "type": "uint256"
             },
             {
                 "name": "compellingStoryUri",
@@ -76,6 +138,54 @@ module.exports.uniCraftABI = [{
         }],
         "payable": false,
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [{
+                "name": "_id",
+                "type": "bytes32"
+            },
+            {
+                "name": "_userStory",
+                "type": "bytes"
+            }
+        ],
+        "name": "buyProduct",
+        "outputs": [{
+            "name": "",
+            "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [{
+                "name": "_id",
+                "type": "bytes32"
+            },
+            {
+                "name": "_name",
+                "type": "bytes"
+            },
+            {
+                "name": "_addr",
+                "type": "address"
+            },
+            {
+                "name": "_ssn",
+                "type": "bytes"
+            }
+        ],
+        "name": "issuerCertificate",
+        "outputs": [{
+            "name": "",
+            "type": "bool"
+        }],
+        "payable": false,
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -131,7 +241,7 @@ module.exports.uniCraftABI = [{
             {
                 "indexed": false,
                 "name": "_dateMade",
-                "type": "uint256"
+                "type": "bytes"
             },
             {
                 "indexed": false,
@@ -198,115 +308,5 @@ module.exports.uniCraftABI = [{
         ],
         "name": "OwnershipTransferred",
         "type": "event"
-    },
-    {
-        "constant": false,
-        "inputs": [{
-                "name": "_id",
-                "type": "bytes32"
-            },
-            {
-                "name": "_name",
-                "type": "bytes"
-            },
-            {
-                "name": "_addr",
-                "type": "address"
-            },
-            {
-                "name": "_ssn",
-                "type": "bytes"
-            }
-        ],
-        "name": "issuerCertificate",
-        "outputs": [{
-            "name": "",
-            "type": "bool"
-        }],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [{
-                "name": "_id",
-                "type": "bytes32"
-            },
-            {
-                "name": "_artisanId",
-                "type": "bytes32"
-            },
-            {
-                "name": "_coopProvince",
-                "type": "bytes"
-            },
-            {
-                "name": "_fiber",
-                "type": "bytes"
-            },
-            {
-                "name": "_cStory",
-                "type": "bytes"
-            }
-        ],
-        "name": "listProduct",
-        "outputs": [{
-            "name": "",
-            "type": "bool"
-        }],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [{
-                "name": "_id",
-                "type": "bytes32"
-            },
-            {
-                "name": "_userStory",
-                "type": "bytes"
-            }
-        ],
-        "name": "buyProduct",
-        "outputs": [{
-            "name": "",
-            "type": "bool"
-        }],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [{
-            "name": "_artisanId",
-            "type": "bytes32"
-        }],
-        "name": "getProductCount",
-        "outputs": [{
-            "name": "",
-            "type": "uint256"
-        }],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [{
-            "name": "_artisanId",
-            "type": "bytes32"
-        }],
-        "name": "getProductList",
-        "outputs": [{
-            "name": "",
-            "type": "bytes32[]"
-        }],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
     }
 ]

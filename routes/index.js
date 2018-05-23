@@ -2,25 +2,24 @@ var express = require('express');
 var utils = require('./utils.js')
 var router = express.Router();
 Web3 = require('web3')
-var web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/jEuv2hLiFC9ILI7MvArl'));
-//var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/TOIiNmTE9VH8TIrRHCib'));
-const privateKey = "0x599d0294d4dc6df206e004b7723c712c801e19efd8b9db553a95d39a3404e99a"
+//var web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/jEuv2hLiFC9ILI7MvArl'));
+var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/TOIiNmTE9VH8TIrRHCib'));
+const privateKey = "88fffae7b718ab21f4d79acf7602e8281f7b0d16ca7c17b34a8609d73cb7fb44"
 
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
 	res.json('Nothing to response')
 });
-router.post('/registerIssuer', function (req, response, next) {
-	let issuerPubkey = req.body.issuerPubkey.toString()
-	console.log(req.body.issuerPubkey)
-	let issuerName = req.body.issuerName.toString()
-	console.log(req.body.issuerName)
+router.post('/issueCertificate', function (req, response, next) {
+	let name = req.body.name.toString()
+	console.log(req.body.name)
+	let ssn = req.body.ssn.toString()
+	console.log(req.body.ssn)
+	let picture = req.body.picture.toString()
 
-	issuerPubkey = "0x" + utils.ascii_to_hexa(issuerPubkey)
-	issuerName = "0x" + utils.ascii_to_hexa(issuerName)
-	console.log(issuerPubkey + ' ' + typeof (issuerPubkey))
-	console.log(issuerName + ' ' + typeof (issuerName))
+	utils.issueCertificate(name,ssn,picture)
+
 
 	const dataRegister = utils.cvssledgerContract.methods.registerIssuer(issuerPubkey, issuerName).encodeABI();
 

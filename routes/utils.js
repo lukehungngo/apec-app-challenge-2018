@@ -205,3 +205,21 @@ module.exports.getProductList = async function (artisanId) {
 	})
 	return productList
 }
+
+module.exports.getTransactionData = async function(txLink){
+	let txLinks = txLink.split('/')
+	let txId = txLinks[txLinks.length-1]
+	let receipt = await web3.eth.getTransaction(txId)
+	let data = receipt.input
+	let story = await module.exports.hex_to_ascii(data)
+	return story
+}
+module.exports.hex_to_ascii = async function(str1)
+ {
+	var hex  = str1.toString();
+	var str = '';
+	for (var n = 0; n < hex.length; n += 2) {
+		str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+	}
+	return str;
+ }

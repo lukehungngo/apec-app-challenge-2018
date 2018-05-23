@@ -104,4 +104,9 @@ router.post('/getProductList', async function (req, response, next) {
 	let result = await utils.getProductList(ArtisanId)
 	response.json(result)
 });
+router.post('/getTransactionData', async function (req, response, next) {
+	let txLink = req.body.TxId.toString()
+	let story = await utils.getTransactionData(txLink)
+	response.json(story)
+});
 module.exports = router;

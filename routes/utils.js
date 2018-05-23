@@ -127,16 +127,6 @@ module.exports.CreateRawTransaction = function (dataRegister, privateKey) {
 		privateKey
 	)
 }
-module.exports.CreateRawContractTransaction = function (dataRegister, privateKey) {
-	if (from === null) from = sender
-	return web3.eth.accounts.signTransaction({
-			data: dataRegister,
-			gas: 3000000,
-			to: CONTRACT_ADDRESS
-		},
-		privateKey
-	)
-}
 BroadcastRawTransaction = function (res) {
 	const signedTransaction = res.rawTransaction;
 
@@ -196,4 +186,21 @@ module.exports.storeUserStory = async function (productId, story) {
 	return {
 		"dataRegister": dataRegister
 	}
+}
+module.exports.getProductCount = async function (artisanId) {
+	const dataRegister = module.exports.uniCraftContract.methods.getProductCount(artisanId).encodeABI();
+	let productCount = await web3.eth.call({
+		to: CONTRACT_ADDRESS,
+		data: dataRegister
+	})
+	return productCount
+}
+
+module.exports.getProductList = async function (artisanId) {
+	const dataRegister = module.exports.uniCraftContract.methods.getProductList(artisanId).encodeABI();
+	let productList = await web3.eth.call({
+		to: CONTRACT_ADDRESS,
+		data: dataRegister
+	})
+	return productList
 }

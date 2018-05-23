@@ -92,4 +92,16 @@ router.post('/addUserStory', async function (req, response, next) {
 		})
 	})
 });
+router.post('/getProductCount', async function (req, response, next) {
+
+	let ArtisanId = req.body.ArtisanId.toString()
+	let result = await utils.getProductCount(ArtisanId)
+	response.json(parseInt(result, 16))
+});
+router.post('/getProductList', async function (req, response, next) {
+
+	let ArtisanId = req.body.ArtisanId.toString()
+	let result = await utils.getProductList(ArtisanId)
+	response.json(result)
+});
 module.exports = router;

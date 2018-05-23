@@ -74,26 +74,22 @@ router.post('/listProduct', function (req, response, next) {
 	})
 
 });
-router.post('/listProduct', function (req, response, next) {
+router.post('/addUserStory', async function (req, response, next) {
 
-	let ArtisanId = req.body.ArtisanId.toString()
-	console.log(req.body.ArtisanId)
-	let CoopProvince = req.body.CoopProvince.toString()
-	console.log(req.body.CoopProvince)
-	let Fiber = req.body.Fiber.toString()
-	console.log(req.body.Fiber)
-	let Story = req.body.Story.toString()
-	console.log(req.body.Story)
-	let DateMade = req.body.DateMade.toString()
-	console.log(req.body.DateMade)
-	utils.listProduct(ArtisanId, DateMade, CoopProvince, Fiber, Story).then(result => {
-		dataRegister = result.dataRegister
-		ProductId = result.ProductId
-		utils.CreateAndBroadcastTx(privateKey, dataRegister, (txId) => response.json({
-			"Link": txId,
-			"ProductId": ProductId
-		}))
+	let ProductId = req.body.ProductId.toString()
+	console.log(req.body.ProductId)
+	let UserStory = req.body.UserStory.toString()
+	console.log(req.body.UserStory)
+	let storyHex = "0x" + await utils.ascii_to_hexa(UserStory)
+	let nonce = await web3.eth.getTransactionCount("0x5fdc5fd99b832b78b8583aa1839f72aa6c00d901") + 1
+	utils.CreateAndBroadcastSelfTx(privateKey, storyHex, (txId_1) => {
+		utils.storeUserStory(ProductId, txId_1).then(result => {
+			dataRegister = result.dataRegister
+			utils.CreateAndBroadcastTxWithNonce(privateKey, dataRegister, nonce, (txId_2) => response.json({
+				"Link": txId_2,
+				"ProductId": ProductId
+			}))
+		})
 	})
-
 });
 module.exports = router;

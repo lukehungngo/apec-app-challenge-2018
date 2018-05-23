@@ -111,7 +111,8 @@ module.exports.CreateAndBroadcastSelfTx = function (privateKey, dataRegister, ca
 				console.log(err);
 
 				console.log(res);
-				callback('https://rinkeby.etherscan.io/tx/' + res)
+				callback(res)
+				//callback('https://rinkeby.etherscan.io/tx/' + res)
 				return res;
 			});
 		}
@@ -182,11 +183,17 @@ module.exports.listProduct = async function (artisanId, dateMade, coopProvince, 
 	dateMade = "0x" + await module.exports.ascii_to_hexa(dateMade)
 	coopProvince = "0x" + await module.exports.ascii_to_hexa(coopProvince)
 	fiber = "0x" + await module.exports.ascii_to_hexa(fiber)
-	story = "0x" + await module.exports.ascii_to_hexa(story)
+	//story = "0x" + await module.exports.ascii_to_hexa(story)
 	const dataRegister = module.exports.uniCraftContract.methods.listProduct(hash, artisanId, dateMade, coopProvince, fiber, story).encodeABI();
 	return {
 		"dataRegister": dataRegister,
 		"ProductId": hash
 	}
+}
 
+module.exports.storeUserStory = async function (productId, story) {
+	const dataRegister = module.exports.uniCraftContract.methods.buyProduct(productId, story).encodeABI();
+	return {
+		"dataRegister": dataRegister
+	}
 }

@@ -4,7 +4,7 @@ var router = express.Router();
 Web3 = require('web3')
 //var web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/jEuv2hLiFC9ILI7MvArl'));
 var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/TOIiNmTE9VH8TIrRHCib'));
-const privateKey = "88fffae7b718ab21f4d79acf7602e8281f7b0d16ca7c17b34a8609d73cb7fb44"
+const privateKey = "0x88fffae7b718ab21f4d79acf7602e8281f7b0d16ca7c17b34a8609d73cb7fb44"
 
 
 /* GET home page. */
@@ -18,12 +18,29 @@ router.post('/issueCertificate', function (req, response, next) {
 	console.log(req.body.ssn)
 	let picture = req.body.picture.toString()
 
-	utils.issueCertificate(name,ssn,picture)
+	utils.issueCertificate(name,ssn,picture).then(result =>
+	{
+		dataRegister = result.dataRegister
+		ArtisanId = result.ArtisanId
+		utils.CreateAndBroadcastTx(privateKey, dataRegister, (txId) => response.json({
+			"Link": txId,
+			"ArtisanId": ArtisanId
+		}))
+	})
+	
+});
+router.post('/listProduct', function (req, response, next) {
+	let name = req.body.name.toString()
+	console.log(req.body.name)
+	let ssn = req.body.ssn.toString()
+	console.log(req.body.ssn)
+	let picture = req.body.picture.toString()
 
-
-	const dataRegister = utils.cvssledgerContract.methods.registerIssuer(issuerPubkey, issuerName).encodeABI();
-
-	utils.CreateAndBroadcastTx(privateKey, dataRegister,(txID)=> response.json(txID))
+	utils.issueCertificate(name,ssn,picture).then(result =>
+	{
+		utils.CreateAndBroadcastTx(privateKey, result, (txId) => response.json(txId))
+	})
+	
 });
 
 router.post('/registerUser', function (req, response, next) {
